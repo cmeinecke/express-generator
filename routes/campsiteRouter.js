@@ -215,7 +215,9 @@ campsiteRouter
               })
               .catch((err) => next(err));
           } else {
-            err = new Error(`Comment ${req.params.commentId} not found`);
+            const err = new Error(
+              "You are not authorized to update this comment!"
+            );
             err.status = 403;
             return next(err);
           }
@@ -237,8 +239,6 @@ campsiteRouter
         const theComment = campsite.comments.id(req.params.commentId);
         if (campsite && theComment) {
           if (theComment.author._id.equals(req.user._id)) {
-          }
-          if (campsite && campsite.comments.id(req.params.commentId)) {
             campsite.comments.id(req.params.commentId).remove();
             campsite
               .save()
@@ -249,7 +249,9 @@ campsiteRouter
               })
               .catch((err) => next(err));
           } else {
-            err = new Error(`Comment ${req.params.commentId} not found`);
+            const err = new Error(
+              "You are not authorized to delete this comment!"
+            );
             err.status = 403;
             return next(err);
           }
